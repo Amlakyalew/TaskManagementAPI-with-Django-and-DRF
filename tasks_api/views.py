@@ -1,9 +1,15 @@
 from django.shortcuts import render
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, SAFE_METHODS
+from django.contrib.auth import get_user_model
+
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, SAFE_METHODS
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework import generics
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+
 from .models import Task, Comment
-from .serializers import TaskSerializer, UpdateTaskSerializer, CommentSerializer, UpdateCommentSerializer
+from .serializers import TaskSerializer, UpdateTaskSerializer, CommentSerializer, UpdateCommentSerializer, RegisterSerializer
 from .permissions import IsCommentCreatorOrAdmin, IsTaskCreatorOrAdmin, IsTaskCreator
 
 
@@ -37,9 +43,9 @@ class CommentViewSet(ModelViewSet):
 
 
     def get_serializer_class(self):
-        if self.request.method in SAFE_METHODS:
-            return CommentSerializer
-        return UpdateCommentSerializer
+        if self.request.method == 'POST':
+            return UpdateCommentSerializer
+        return CommentSerializer
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -54,3 +60,26 @@ class CommentViewSet(ModelViewSet):
             return [IsCommentCreatorOrAdmin()]
         return [IsAuthenticated()]
 
+
+User = get_user_model()
+
+class RegisterViewSet(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [IsAdminUser]
+
+    @action(detail=False, methods=['GET', 'PATCH'])
+    def me(self, request):
+        if request.method == 'PATCH':
+            serializer = self.get_serializer(request.user, request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+        
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
