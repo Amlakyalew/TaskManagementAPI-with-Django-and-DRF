@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, SAFE_METHODS
 from rest_framework.viewsets import ModelViewSet
@@ -18,7 +19,10 @@ class TaskViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete', 'head', 'options']
     
     serializer_class = TaskSerializer
-    queryset = Task.objects.all()
+
+    def get_queryset(self):
+        context = super().get_serializer_context()
+        return Task.objects.filter(Q(assigned_to=self.request.user) | Q(created_by=self.request.user))
     
 
     def get_permissions(self):
@@ -71,7 +75,11 @@ class RegisterViewSet(generics.CreateAPIView):
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
-    permission_classes = [IsAdminUser]
+
+    def get_permissions(self):
+        if self.action == 'me':
+            return [IsAuthenticated()]
+        return [IsAdminUser()]
 
     @action(detail=False, methods=['GET', 'PATCH'])
     def me(self, request):

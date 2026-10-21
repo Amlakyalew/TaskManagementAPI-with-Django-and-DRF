@@ -6,7 +6,7 @@ from .views import TaskViewSet, TaskStatusViewSet, CommentViewSet, RegisterViewS
 
 router = DefaultRouter()
 router.register('tasks', TaskViewSet, basename='tasks')
-router.register('auth/users', UserViewSet, basename='users')
+router.register('users', UserViewSet, basename='users')
 
 tasks_router = routers.NestedDefaultRouter(router, 'tasks', lookup='task')
 tasks_router.register('comments', CommentViewSet, basename='task-comments')
