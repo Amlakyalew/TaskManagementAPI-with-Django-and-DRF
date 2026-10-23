@@ -8,6 +8,10 @@ django = "*"
 djangorestframework = "*"
 drf-nested-routers = "*"
 djangorestframework-simplejwt = "*"
+gunicorn = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+whitenoise = "*"
 
 [dev-packages]
 
