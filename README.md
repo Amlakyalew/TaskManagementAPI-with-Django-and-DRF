@@ -18,7 +18,7 @@ This is a robust RESTful API for task management system, built with Django and D
 
 ## Setup and installation
 **Prerequsites**
-* python 3.10+
+* python 3.12+
 * Git
 
 ### Clone repository
