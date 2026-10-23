@@ -6,7 +6,7 @@ This is a robust RESTful API for task management system, built with Django and D
 - **Framework:** Django and DRF (Django REST Framework)
 - **Authentication and Authorization:** Simplejwt (JSON Web Token)
 - **Database:** SQLite
-- **Python:** version 3.12+
+- **Python:** version 3.10+
 
 ## Features
 * **Custom user management** uses `get_user_model()` to access and use custom user model.
@@ -18,7 +18,7 @@ This is a robust RESTful API for task management system, built with Django and D
 
 ## Setup and installation
 **Prerequsites**
-* python 3.12+
+* python 3.10+
 * Git
 
 ### Clone repository
