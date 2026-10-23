@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = 'TaskManagemnentAPI.urls'
+ROOT_URLCONF = 'TaskManagementAPI.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'TaskManagemnentAPI.wsgi.application'
+WSGI_APPLICATION = 'TaskManagementAPI.wsgi.application'
 
 
 # Database
