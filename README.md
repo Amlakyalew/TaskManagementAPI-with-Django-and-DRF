@@ -24,7 +24,7 @@ This is a robust RESTful API for task management system, built with Django and D
 ### Clone repository
 ``` bash
 git clone https://github.com/Amlakyalew/TaskManagementAPI-with-Django-and-DRF.git
-cd TaskManagementSystem
+cd TaskManagementAPI-with-Django-and-DRF
 ```
 ## Main endpoints
 
