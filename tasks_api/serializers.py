@@ -36,7 +36,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = Comment
-        fields = ['id', 'content', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'content', 'created_at', 'updated_at']
 
 
 User = get_user_model()
@@ -47,6 +47,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'username', 'email', 'password']
+
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
